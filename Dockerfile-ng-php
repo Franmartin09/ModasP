@@ -1,0 +1,82 @@
+FROM php:7.4-fpm
+
+# Setup mysqli extension
+#RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2enmod rewrite
+# Setup postgresSQL extension
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql pgsql 
+# Setup GD extension
+RUN apt-get update -y && apt-get install -y sendmail libpng-dev
+
+RUN apt-get update && apt-get install -y zlib1g-dev 
+
+# RUN docker-php-ext-install gd mysqli
+# Setup imap extension
+# RUN apt-get update -y && apt-get install -y libc-client-dev libkrb5-dev
+# RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install imap
+
+# Setup intl extension
+RUN apt-get update -y && apt-get install -y libicu-dev
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
+
+# Setup Zend OPcache extension
+# RUN docker-php-ext-install opcache
+
+# Setup ldap extension
+# RUN apt-get update && \
+# apt-get install libldap2-dev -y && \
+# rm -rf /var/lib/apt/lists/* && \
+# docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+# docker-php-ext-install ldap
+
+# Setup temporal
+RUN apt-get update && apt-get install nano zip unzip
+
+#RUN a2enmod rewrite && service apache2 restart
+
+#COPY ../phpsimple/ /var/www/myapp
+
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer WORKDIR /var/www/myapp
+
+WORKDIR /var/www/html
+#RUN ["composer", "update"]
+#CMD bash -c "composer update"
+# RUN composer install
+
+#COPY fullchain.pem /var/imported/ssl/
+#COPY privkey.ppk /var/imported/ssl/
+#COPY 000-default.conf /etc/apache2/sites-available/
+
+##############
+
+# Liberamos espacio 
+RUN rm -rf /var/lib/apt/lists/*
+
+
+##############
+# Copy Nginx configuration and app to server
+COPY config-ng/php.ini /usr/local/etc/php/php.ini
+COPY SRC/ /var/www/html
+COPY WRITABLE/ /var/www/html/writable
+RUN chmod -R 777 /var/www/html/writable
+#RUN mkdir /var/www/assets
+#RUN chmod -R 777 /var/www/assets
+# Set timezone
+RUN rm /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Europe/Madrid /etc/localtime
+RUN "date"
+
+# Instalar Dompdf
+# RUN composer require dompdf/dompdf
+
+RUN apt-get update && \
+    apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+        libxpm-dev \
+        libzip-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd
+
+EXPOSE 9000

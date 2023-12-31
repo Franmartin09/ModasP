@@ -1,0 +1,83 @@
+version: '3.7'
+name: clientesyfacturas
+services:
+    pro1webng:
+        container_name: pro1-ng-web
+        build:
+           context: .
+           dockerfile: Dockerfile-ng-web
+        ports:
+           - 80:80
+        volumes:
+           - ./SRC/:/var/www/html
+           - ./config-ng/site.conf:/etc/nginx/conf.d/site.conf
+        depends_on:
+           - pro1phpng
+    pro1phpng:
+        container_name: pro1-ng-php
+        build:
+           context: .
+           dockerfile: Dockerfile-ng-php
+        volumes:
+            - ./SRC/:/var/www/html
+            - ./config-ng/php.ini:/usr/local/etc/php/php.ini
+            #- ./ASSETS/:/var/www/assets
+            - ./WRITABLE/:/var/www/html/writable
+    pro1bd-pg:
+        container_name: pro1-bd-pg
+        image: postgres
+        restart: always
+        environment:
+             POSTGRES_PASSWORD: root
+             POSTGRES_DB: ci4_postgre
+             POSTGRES_USER: root
+             PGDATA: /var/lib/postgresql/data/pgdata
+        volumes:
+             - ./config-ng/data/:/var/lib/postgresql/data/pgdata
+             - ./config-ng/ci4_postgre.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+             - 5432:5432
+
+   #  uicginweb:
+   #      container_name: uic-gin-web
+   #      #image: tomcat:jre8
+   #      build:
+   #          context: .
+   #          dockerfile: Dockerfile-web
+   #      ports:
+   #         - "8080:80"
+   #      volumes:
+   #         - ./GIN_UIC/:/var/www/html
+   #  pgadmin:
+   #      container_name: pg-admin
+    #     image: dpage/pgadmin4
+    #     environment:
+    #         PGADMIN_DEFAULT_EMAIL: soporteapps@stp.es
+    #         PGADMIN_DEFAULT_PASSWORD: desastp
+    #     ports:
+    #        - "8081:80"
+    #     volumes:
+    #         - ./data_pgadmin:/var/lib/pgadmin
+    #uicginbd:
+        #container_name: uic-gin-bd-mysql
+        #image: mariadb-custom
+        #build:
+            #context: .
+            #dockerfile: Dockerfile-db
+        #restart: always
+        #ports:
+           #- "3306:3306"
+        #environment:
+            #MARIADB_ROOT_PASSWORD: desastp
+            #MARIADB_DATABASE: uic_gin
+   #     volumes:
+   #          - ./data_uic_mysql/:/var/lib/mysql
+   #         - ./init_db_mysql.sql:/docker-entrypoint-initdb.d/init.sql
+   #  uicginadminer:
+   #     container_name: uic-gin-adminer
+   #     image: adminer
+   #     restart: always
+   #     ports:
+   #         - 8081:8080
+# volumes:
+#     persistent:
