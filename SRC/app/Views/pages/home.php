@@ -106,10 +106,10 @@
 
 <!-- NEWSELLER -->
 <div id="newseller" class="mt-5 row" style="align-items: center; height:100vh; background-color: #FDF4F7;">
-  <div style="text-align:center;"><h2><strong>Newsletter</strong></h2>
+  <div style="text-align:center;"><h1><strong>Newsletter</strong></h1>
   <h3>Recibe notificaciones de nuestras ultimas ofertas!</h3> 
-  <input style="height:20px;width:auto;" type="text">
-  <button style="background-color:#5F9EA0; height:20px;width:auto;"><i class="bi bi-send"></i></button>    
+  <input style="height:30px;width:600px;" type="text">
+  <button style="background-color:#5F9EA0; height:30px;width:auto;"><i class="bi bi-send"></i></button>    
 </div>  
 </div>
 
@@ -169,8 +169,24 @@
   </div>
 </div>
 
+
+<!-- DROPRIGHT MENU -->
+<div id="droprightMenu" class="dropright-menu" style="display:none;">
+  <button class="btn button-outline mx-2 me-3" style="outline: none;float:right;" onclick="toggleDropdown()"><i style="font-size:26px;" class="bi bi-x"></i></button>
+  <a href="#" class="mx-2">Enlace 1</a>
+  <a href="#" class="mx-2">Enlace 2</a>
+  <a href="#" class="mx-2">Enlace 1</a>
+  <a href="#" class="mx-2">Enlace 2</a>
+  <a href="#" class="mx-2">Enlace 1</a>
+  <a href="#" class="mx-2">Enlace 2</a>
+  <a href="#" class="mx-2">Enlace 1</a>
+  <a href="#" class="mx-2">Enlace 2</a>
+</div>
+
 <script>
-    $('.carousel').carousel({
-        interval: 2000
-    })
+    $(document).ready(function () {
+        $('.carousel').carousel({
+            interval: 2000
+        });
+    });
 </script>

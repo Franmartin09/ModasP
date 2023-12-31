@@ -15,7 +15,8 @@
     <!-- JAVASCRIPT -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
-    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <script type="text/javascript">
       function showLoading() {
         document.getElementById('loading').style.display='block';
@@ -23,7 +24,12 @@
       function hideLoading() {
         document.getElementById('loading').style.display='none';
       }
+      function toggleDropdown() {
+        var dropdownMenu = document.getElementById("droprightMenu");
+        dropdownMenu.style.display = (dropdownMenu.style.display === "block") ? "none" : "block";
+    }
     </script>
+
 <style>
         body {
             overflow-x: hidden;
@@ -48,15 +54,30 @@
             height: 40%;
         }
         .center {
-            
             display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  border: 3px solid green;
-
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            border: 3px solid green;
+        }
+        .dropright-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #FFF;
+            text-align: center;
+            z-index: 1;
         }
 
+        .dropright-menu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #000; 
+            font-size: 18px;
+        }
     </style>
 </head>
 
@@ -66,7 +87,7 @@
     </div>
     <div class="row pt-4 pb-4">
         <div class="col-3">
-                <button class="btn button-outline mx-2" style=""  name="menu" id="menu"><i style="font-size:26px;" class="bi bi-list"></i></button>
+                <button onclick="toggleDropdown()" class="btn button-outline mx-2" style=""  name="menu" id="menu"><i style="font-size:26px;" class="bi bi-list"></i></button>
                 <a class="mx-2" style="outline: none; cursor: pointer;">OFERTAS</a>
                 <a class="mx-2" style="outline: none; cursor: pointer;">SHOP NOW!</a>
         </div>
@@ -74,7 +95,7 @@
             <img src="app/Views/templates/logo_vacio.png" alt="Logo" style="width:140px;">
         </div>
         <div class="col-3 text-end" style="">
-            <button class="btn button-outline mx-2" style=""  name="chart" id="chart" onclick=showLoading()><i style="font-size:25px;" class="bi bi-search"></i></button>
+            <button class="btn button-outline mx-2" style=""  name="chart" id="chart" onclick=showLoading()><i style="font-size:25px;" class="bi bi-search" ></i></button>
             <button class="btn button-outline mx-2" style="outline: none;"  name="chart" id="chart" onclick=showLoading()><i style="font-size:25px;" class="bi bi-cart"></i></button>
             <button class="btn button-outline mx-2 me-3" style="outline: none;"  name="logout" onclick=showLoading()><i style="font-size:25px;" class="bi bi-person"></i></button>
         </div>
